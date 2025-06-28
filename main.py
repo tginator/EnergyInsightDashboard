@@ -1,10 +1,14 @@
 from analysis.preprocess import load_and_clean_data
 from visuals.energy_insights import (
     plot_energy_insights, plot_emissions_trend, plot_clean_vs_fossil_share)
+from analysis.forecast import forecast_emissions_intensity
 
 df = load_and_clean_data("data/WA-energy-consumption.csv")
 
-plot_energy_insights(df)
-plot_emissions_trend(df)
-plot_clean_vs_fossil_share(df)
+# plot_energy_insights(df)
+# plot_emissions_trend(df)
+# plot_clean_vs_fossil_share(df)
+
+forecast_df = forecast_emissions_intensity(df, months_ahead=6)
+print(forecast_df)
 
