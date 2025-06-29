@@ -7,19 +7,21 @@ import seaborn as sns
 def plot_energy_insights(df):
 
     sources = ['coal-gwh', 'gas-gwh', 'wind-gwh', 'solar-gwh', 'hydro-gwh', 'bioenergy-gwh', 'distillate-gwh', 'battery(discharging)-gwh']
+      
+    fig, ax = plt.subplots(figsize=(12, 6))
 
-    df.set_index('date', inplace=True)
+    df_plot = df.set_index('date')[sources]
 
-    # Plotting the total generation over time stacked on each other
-    df[sources].plot(kind='area', stacked=True, figsize=(12, 6),alpha=0.7)
+     # Plotting the total generation over time stacked on each other   
+    df_plot.plot(kind='area', stacked=True, alpha=0.7, ax=ax)
 
-    plt.title('Monthly Electricity Generation by Source (GWh)')
-    plt.ylabel('GWh')
-    plt.xlabel('Date')
-    plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
-    plt.tight_layout()
-    plt.show()
-    df.reset_index(inplace=True)
+    ax.set_title('Monthly Electricity Generation by Source (GWh)')
+    ax.set_ylabel('GWh')
+    ax.set_xlabel('Date')
+    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    fig.tight_layout()
+
+    return fig
 
 def plot_emissions_trend(df):
 

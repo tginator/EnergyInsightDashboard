@@ -13,14 +13,15 @@ st.title("WA Energy Emissions & Forecasting Dashboard")
 
 st.header("Monthly electricity generation by source (GWh)")
 st.text("This chart shows the total generation of electricity in Westerm Australia from 2013-2025 June by source, including coal, gas, wind, solar, hydro, bioenergy, distillate, and battery discharging.")
-st.pyplot(plot_energy_insights(df))
+fig = plot_energy_insights(df)
+st.pyplot(fig)
 
 st.header("Energy Usage & Emissions Overview")
 st.line_chart(df.set_index('date')[['total generation (GWh)', 'total emissions (tCO2)']])
 
 # Section 2: Forecasting
 st.header("Forecasting Emissions Intensity")
-months = st.slider("Select months to forecast", 3, 12, 6)
+months = st.slider("Select months to forecast future emissions intensity based on previous years, calculated using linear regression", 3, 12, 6)
 forecast_df = forecast_emissions_intensity(df, months_ahead=months)
 st.line_chart(forecast_df.set_index('date'))
 
@@ -56,6 +57,7 @@ with colB:
     st.metric("Simulated Avg Intensity (kgCO2e/MWh)", round(df_sim['emissionsintensity-kgco₂e/mwh'].mean(), 2))
 
 
-
 # Display clean vs fossil energy share
+
+st.subheader("Clean vs Fossil Energy Share Over Time")
 st.line_chart(df_sim.set_index('date')[['Clean Energy Share (%)', 'Fossil Energy Share (%)']])
