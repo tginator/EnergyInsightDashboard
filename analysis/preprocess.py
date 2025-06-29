@@ -22,7 +22,7 @@ def load_and_clean_data(file_path):
    df['total emissions (tCO2)'] = df[emis_cols].sum(axis=1)
 
    # Create Clean Energy % 
-   df['clean energy share (%)'] = (df[['wind-gwh', 'solar-gwh', 'hydro-gwh', 'battery(discharging)-gwh']].sum(axis=1) / df['total generation (GWh)']) * 100
+   df['Clean Energy Share (%)'] = (df[['wind-gwh', 'solar-gwh', 'hydro-gwh', 'battery(discharging)-gwh']].sum(axis=1) / df['total generation (GWh)']) * 100
 
    # Create Fossil Energy % 
    df['Fossil Energy Share (%)'] = (df[['coal-gwh', 'gas-gwh', 'distillate-gwh']].sum(axis=1) / df['total generation (GWh)']) * 100

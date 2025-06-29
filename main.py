@@ -29,3 +29,5 @@ print("Original avg intensity in kgco₂e/mwh:", round(df['emissionsintensity-kg
 print("Simulated avg intensity in kgco₂e/mwh:", round(df_simulated['emissionsintensity-kgco₂e/mwh'].mean(), 2))
 
 
+
+
