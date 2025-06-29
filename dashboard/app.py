@@ -16,14 +16,28 @@ st.text("This chart shows the total generation of electricity in Westerm Austral
 fig = plot_energy_insights(df)
 st.pyplot(fig)
 
+# For better visualization, we convert GWh to MW for this graph
+df_mw = df.copy()
+df_mw['total generation (MWh)'] = (df_mw['total generation (GWh)'] * 1000)
+
 st.header("Energy Usage & Emissions Overview")
-st.line_chart(df.set_index('date')[['total generation (GWh)', 'total emissions (tCO2)']])
+st.line_chart(df_mw.set_index('date')[['total generation (MWh)', 'total emissions (tCO2)']])
 
 # Section 2: Forecasting
+
 st.header("Forecasting Emissions Intensity")
 months = st.slider("Select months to forecast future emissions intensity based on previous years, calculated using linear regression", 3, 12, 6)
 forecast_df = forecast_emissions_intensity(df, months_ahead=months)
 st.line_chart(forecast_df.set_index('date'))
+
+st.subheader("Download Forecasted Data")
+st.download_button(
+    label="Download Forecasted Emissions Intensity (CSV)",
+    data=forecast_df.to_csv(index=False),
+    file_name='forecasted_emissions_intensity.csv',
+    mime='text/csv'
+)
+
 
 # Section 3: Scenario simulation
 st.header("Energy Change Simulation")
