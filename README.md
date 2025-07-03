@@ -29,6 +29,6 @@ Columns include:
    cd wa-energy-dashboard
 2. Install dependencies:
    pip install -r requirements.txt
-3. streamlit run dashboard/app.py
+3. python -m streamlit run dashboard/app.py
 
 ## Screenshots
