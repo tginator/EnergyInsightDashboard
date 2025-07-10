@@ -36,3 +36,6 @@ Columns include:
 3. python -m streamlit run dashboard/app.py
 
 ## Screenshots
+<img width="957" height="903" alt="Screenshot 2025-07-11 022150" src="https://github.com/user-attachments/assets/76b5b41a-a8f8-4cc0-85ca-be523c6cecdb" /> <img width="957" height="774" alt="Screenshot 2025-07-11 022203" src="https://github.com/user-attachments/assets/a340271a-801d-4fc2-97c0-67df2bb96bbf" /> <img width="949" height="872" alt="Screenshot 2025-07-11 022215" src="https://github.com/user-attachments/assets/91d3f310-8522-4cea-aedd-d87ec59caa69" />
+
+
