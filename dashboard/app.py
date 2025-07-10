@@ -26,9 +26,27 @@ st.line_chart(df_mw.set_index('date')[['total generation (MWh)', 'total emission
 # Section 2: Forecasting
 
 st.header("Forecasting Emissions Intensity")
-months = st.slider("Select months to forecast future emissions intensity based on previous years, calculated using linear regression", 3, 12, 6)
+st.text("This emissions intensity " \
+"forecast estimates the next few months of carbon emissions per unit of electricity (kgCO₂e/MWh).It uses historical trends, seasonal patterns (monthly cycles), and average temperatures to predict how emissions may evolve based on past behavior.")
+months = st.slider("Select months to forecast", 3, 12, 6)
+
+# Generate forecast
 forecast_df = forecast_emissions_intensity(df, months_ahead=months)
-st.line_chart(forecast_df.set_index('date'))
+
+# Prepare actual emissions
+actual = df[['date', 'emissionsintensity-kgco₂e/mwh']].copy()
+actual = actual.rename(columns={'emissionsintensity-kgco₂e/mwh': 'Emissions Intensity (Actual)'})
+actual.set_index('date', inplace=True)
+
+# Prepare forecast emissions
+forecast_df = forecast_df.rename(columns={'forecasted_emissions_intensity': 'Emissions Intensity (Forecast)'})
+forecast_df.set_index('date', inplace=True)
+
+# Combine actual and forecast
+combined = pd.concat([actual, forecast_df])
+
+# Plot both lines
+st.line_chart(combined)
 
 st.subheader("Download Forecasted Data")
 st.download_button(
