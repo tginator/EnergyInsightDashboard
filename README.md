@@ -4,7 +4,7 @@
 ## Current Features
 #### Visualise electricity generation by source over the past 10+ years (2013-2025)
 #### Track total emissions and emissions intensity
-#### Forecasting module that estimates future emissions intensity using a linear regression model enhanced with seasonal and environmental features. Accounts for:
+#### 2 Forecasting module that estimates future emissions intensity using machine learning models enhanced with seasonal and environmental features. Accounts for:
 - Time progression (long-term trend)
 - Seasonality, using sine and cosine functions to reflect monthly cycles
 - Temperature influence, since ambient temperature affects energy demand and generation sources
