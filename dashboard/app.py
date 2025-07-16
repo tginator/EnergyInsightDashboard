@@ -3,11 +3,14 @@ import pandas as pd
 from analysis.preprocess import load_and_clean_data
 from analysis.scenario import simulate_policy
 from analysis.forecast import forecast_emissions_intensity
+from analysis.ml_model import train_emissions_model
 from visuals.energy_insights import (
     plot_energy_insights, plot_emissions_trend, plot_clean_vs_fossil_share)
 
 df = load_and_clean_data("data/WA-energy-consumption.csv")
 st.title("WA Energy Emissions & Forecasting Dashboard")
+
+
 
 # Section 1: Trend Overview
 
@@ -22,6 +25,9 @@ df_mw['total generation (MWh)'] = (df_mw['total generation (GWh)'] * 1000)
 
 st.header("Energy Usage & Emissions Overview")
 st.line_chart(df_mw.set_index('date')[['total generation (MWh)', 'total emissions (tCO2)']])
+
+
+
 
 # Section 2: Forecasting
 
@@ -55,6 +61,18 @@ st.download_button(
     file_name='forecasted_emissions_intensity.csv',
     mime='text/csv'
 )
+
+# Machine learning model using randomforestregressor
+st.header("ML: Emissions prediction")
+st.text("This model uses Random Forest to predict carbon intensity based on fuel mix, temperature, and seasonal signals.")
+
+model, rmse, results_df = train_emissions_model(df)
+st.metric("Model RMSE (kgCO₂e/MWh)", round(rmse, 2))
+
+# Line chart... actual vs predicted
+st.subheader("Actual vs Predicted Emissions Intensity")
+st.line_chart(results_df.set_index('date')[['actual','predicted']])
+
 
 
 # Section 3: Scenario simulation

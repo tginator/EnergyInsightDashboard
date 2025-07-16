@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 
 def train_emissions_model(df):
     df = df.copy()
-    df = ['date'] = pd.to_datetime(df['date'])
+    df['date'] = pd.to_datetime(df['date'])
     df = df.sort_values('date')
 
     # Time-based features
@@ -25,9 +25,32 @@ def train_emissions_model(df):
 
     features = [
         'sin_month', 'cos_month',
-        'temperature_mean', 'prev_emissions'
-        'coal-gwh', 'gas-gwh', 'solar-gwh', 'wind-gwh', 'battery-gwh'
+        'temperature_mean', 'prev_emissions',
+        'coal-gwh', 'gas-gwh', 'solar-gwh', 'wind-gwh',
+        'distillate-gwh', 'battery(discharging)-gwh', 'battery(charging)-gwh'
     ]
 
     X = df[features]
     y = df['emissionsintensity-kgco₂e/mwh']
+
+    # Split for testing model performance
+    X_train, X_test, y_train, y_test = train_test_split(X, y, shuffle=False, test_size=0.2)
+
+    model = RandomForestRegressor(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
+
+    results_df = df.loc[X_test.index, ['date']].copy()
+    results_df['actual'] = y_test.values
+    results_df['predicted'] = y_pred
+
+
+    return model, rmse, results_df
+
+
+
+
+
