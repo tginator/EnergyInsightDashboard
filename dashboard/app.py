@@ -18,7 +18,7 @@ from visuals.energy_insights import (
 
 df = load_and_clean_data("data/WA-energy-consumption.csv")
 
-st.sidebar.title("Navigations")
+st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to:", [
     "Overview",
     "Forecast Emissions",
@@ -145,5 +145,9 @@ if page == "Simulate Policy":
 # Display clean vs fossil energy share
 
 if page == "Clean vs Fossil Energy Share":
+
+    df_sim = simulate_policy(df, changes)
+
+
     st.subheader("Clean vs Fossil Energy Share Over Time")
     st.line_chart(df_sim.set_index('date')[['Clean Energy Share (%)', 'Fossil Energy Share (%)']])
