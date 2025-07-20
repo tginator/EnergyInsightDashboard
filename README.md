@@ -4,7 +4,7 @@
 ## Current Features
 #### Visualise electricity generation by source over the past 10+ years (2013-2025)
 #### Track total emissions and emissions intensity
-#### 2 Forecasting module that estimates future emissions intensity using machine learning models enhanced with seasonal and environmental features. Accounts for:
+#### 2 Forecasting modules (Linear Regression, Random Forest that estimates future emissions intensity using machine learning models enhanced with seasonal and environmental features. Accounts for:
 - Time progression (long-term trend)
 - Seasonality, using sine and cosine functions to reflect monthly cycles
 - Temperature influence, since ambient temperature affects energy demand and generation sources
@@ -36,6 +36,7 @@ Columns include:
 3. python -m streamlit run dashboard/app.py
 
 ## Screenshots
-<img width="957" height="903" alt="Screenshot 2025-07-11 022150" src="https://github.com/user-attachments/assets/76b5b41a-a8f8-4cc0-85ca-be523c6cecdb" /> <img width="957" height="774" alt="Screenshot 2025-07-11 022203" src="https://github.com/user-attachments/assets/a340271a-801d-4fc2-97c0-67df2bb96bbf" /> <img width="949" height="872" alt="Screenshot 2025-07-11 022215" src="https://github.com/user-attachments/assets/91d3f310-8522-4cea-aedd-d87ec59caa69" />
+<img width="957" height="903" alt="Screenshot 2025-07-11 022150" src="https://github.com/user-attachments/assets/76b5b41a-a8f8-4cc0-85ca-be523c6cecdb" /> <img width="957" height="774" alt="Screenshot 2025-07-11 022203" src="https://github.com/user-attachments/assets/a340271a-801d-4fc2-97c0-67df2bb96bbf" /> <img width="799" height="673" alt="Screenshot 2025-07-17 010047" src="https://github.com/user-attachments/assets/b3744f22-6717-42e2-b538-0ee02ec4cfab" /> <img width="949" height="872" alt="Screenshot 2025-07-11 022215" src="https://github.com/user-attachments/assets/91d3f310-8522-4cea-aedd-d87ec59caa69" /> 
+
 
 
