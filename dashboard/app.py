@@ -146,6 +146,13 @@ if page == "Simulate Policy":
 
 if page == "Clean vs Fossil Energy Share":
 
+    changes = {
+        'coal-gwh': coal_change / 100,
+        'gas-gwh': gas_change / 100,
+        'solar-gwh': solar_change / 100,
+        'wind-gwh': wind_change / 100
+    }
+
     df_sim = simulate_policy(df, changes)
 
 
