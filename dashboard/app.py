@@ -1,9 +1,12 @@
 import streamlit as st
 import pandas as pd
+import shap
+import matplotlib.pyplot as plt
 from analysis.preprocess import load_and_clean_data
 from analysis.scenario import simulate_policy
 from analysis.forecast import forecast_emissions_intensity
 from analysis.ml_model import train_emissions_model
+
 from visuals.energy_insights import (
     plot_energy_insights, plot_emissions_trend, plot_clean_vs_fossil_share)
 
@@ -15,7 +18,7 @@ st.title("WA Energy Emissions & Forecasting Dashboard")
 # Section 1: Trend Overview
 
 st.header("Monthly electricity generation by source (GWh)")
-st.text("This chart shows the total generation of electricity in Westerm Australia from 2013-2025 June by source, including coal, gas, wind, solar, hydro, bioenergy, distillate, and battery discharging.")
+st.text("This chart shows the total generation of electricity in Western Australia from 2013-2025 June by source: coal, gas, wind, solar, hydro, bioenergy, distillate, and battery discharging.")
 fig = plot_energy_insights(df)
 st.pyplot(fig)
 
@@ -25,7 +28,6 @@ df_mw['total generation (MWh)'] = (df_mw['total generation (GWh)'] * 1000)
 
 st.header("Energy Usage & Emissions Overview")
 st.line_chart(df_mw.set_index('date')[['total generation (MWh)', 'total emissions (tCO2)']])
-
 
 
 
@@ -63,15 +65,26 @@ st.download_button(
 )
 
 # Machine learning model using randomforestregressor
+
 st.header("ML: Emissions prediction")
 st.text("This model uses Random Forest to predict carbon intensity based on fuel mix, temperature, and seasonal signals.")
 
-model, rmse, results_df = train_emissions_model(df)
+model, rmse, results_df, shap_values, sample_X = train_emissions_model(df)
 st.metric("Model RMSE (kgCO₂e/MWh)", round(rmse, 2))
 
 # Line chart... actual vs predicted
 st.subheader("Actual vs Predicted Emissions Intensity")
 st.line_chart(results_df.set_index('date')[['actual','predicted']])
+
+st.subheader(" Feature Importance (SHAP)")
+
+fig, ax = plt.subplots()
+shap.summary_plot(shap_values, sample_X, show=False)
+st.pyplot(fig)
+
+st.text("I used SHAP to break down model behavior and identify key emissions drivers. Unsurprisingly, solar and wind" \
+"were the most impactful in reducing carbon intensity, while coal showed a clear positive SHAP effect. I also confirmed" \
+"time-dependence via seasonal and lag-based features like prev_emissions and sin_month.")
 
 
 
@@ -105,6 +118,8 @@ with colA:
     st.metric("Original Avg Intensity (kgCO2e/MWh)", round(df['emissionsintensity-kgco₂e/mwh'].mean(), 2))
 with colB:
     st.metric("Simulated Avg Intensity (kgCO2e/MWh)", round(df_sim['emissionsintensity-kgco₂e/mwh'].mean(), 2))
+
+
 
 
 # Display clean vs fossil energy share

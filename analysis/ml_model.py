@@ -47,8 +47,14 @@ def train_emissions_model(df):
     results_df['actual'] = y_test.values
     results_df['predicted'] = y_pred
 
+     # Create SHAP values (only on small sample for speed)
+    import shap
+    sample_X = X_test.sample(n=min(100, len(X_test)), random_state=42)
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(sample_X)
 
-    return model, rmse, results_df
+    return model, rmse, results_df, shap_values, sample_X
+
 
 
 
