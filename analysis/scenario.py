@@ -5,7 +5,12 @@ def simulate_policy(df, changes):
         - Adjusts both generation and emissions for each source
         - Uses historical emissions factors (tCO2e/GWh) for each source
         - Recalculates total emissions and intensity
+        - If all changes are zero, returns a direct copy of the original DataFrame
     """
+
+    # If all changes are zero, return a copy of the original DataFrame
+    if all(change == 0 for change in changes.values()):
+        return df.copy()
 
     df_sim = df.copy()
 
@@ -33,8 +38,10 @@ def simulate_policy(df, changes):
             # If this source has emissions, update emissions using historical factor
             if gen_col in source_map:
                 emis_col = source_map[gen_col]
-                # Use row-wise historical factor for realism
-                df_sim[emis_col] = df_sim[gen_col] * emissions_factors[gen_col]
+                if change != 0:
+                    df_sim[emis_col] = df_sim[gen_col] * emissions_factors[gen_col]
+                else:
+                    df_sim[emis_col] = df[emis_col]  # Keep original emissions if no change
 
     # Recalculate totals
     gen_cols = ['coal-gwh', 'gas-gwh', 'wind-gwh', 'solar-gwh', 'hydro-gwh', 'bioenergy-gwh', 'distillate-gwh', 'battery(discharging)-gwh']
