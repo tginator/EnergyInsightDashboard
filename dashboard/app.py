@@ -114,12 +114,12 @@ if page == "Simulate Policy":
     col1, col2 = st.columns(2)
 
     with col1:
-        coal_change = st.slider("Coal Change (%)", -100.0, 100.0, 0.0)
-        gas_change = st.slider("Gas Change (%)", -100.0, 100.0, 0.0)
+        coal_change = st.slider("Coal Change (%)", -100.0, 100.0, 0.0, help="Adjusts coal power generation and emissions according to your policy scenario.")
+        gas_change = st.slider("Gas Change (%)", -100.0, 100.0, 0.0, help="Adjusts gas power generation and emissions according to your policy scenario.")
 
     with col2:
-        solar_change = st.slider("Solar Change (%)", -100.0, 100.0, 0.0)
-        wind_change = st.slider("Wind Change (%)", -100.0, 100.0, 0.0)
+        solar_change = st.slider("Solar Change (%)", -100.0, 100.0, 0.0, help="Adjusts solar power generation (zero emissions).")
+        wind_change = st.slider("Wind Change (%)", -100.0, 100.0, 0.0, help="Adjusts wind power generation (zero emissions).")
 
     # Run changes:
     changes = {
@@ -139,6 +139,15 @@ if page == "Simulate Policy":
     with colB:
         st.metric("Simulated Avg Intensity (kgCO2e/MWh)", round(df_sim['emissionsintensity-kgco₂e/mwh'].mean(), 2))
 
+    # Add line chart comparing original vs simulated emissions intensity
+    comparison_df = pd.DataFrame({
+        'date': df['date'],
+        'Original Emissions Intensity': df['emissionsintensity-kgco₂e/mwh'],
+        'Simulated Emissions Intensity': df_sim['emissionsintensity-kgco₂e/mwh']
+    })
+    comparison_df.set_index('date', inplace=True)
+    st.subheader("Original vs Simulated Emissions Intensity Over Time")
+    st.line_chart(comparison_df)
 
 
 
@@ -154,7 +163,6 @@ if page == "Clean vs Fossil Energy Share":
     }
 
     df_sim = simulate_policy(df, changes)
-
 
     st.subheader("Clean vs Fossil Energy Share Over Time")
     st.line_chart(df_sim.set_index('date')[['Clean Energy Share (%)', 'Fossil Energy Share (%)']])
