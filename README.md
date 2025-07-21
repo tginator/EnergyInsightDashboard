@@ -1,5 +1,6 @@
 # WA Energy Emissions & Forecasting Dashboard
-#### This project aims to analyze, forecast, and simulate electricity generation and carbon emissions in Western Australia using real-world past data from the SWIS grid. It helps demonstrate how energy source changes (like increasing solar or reducing coal) can affect emissions intensity and overall grid sustainability. 
+#### This project aims to analyze, forecast, and simulate electricity generation and carbon emissions in Western Australia using real-world past data from the SWIS grid. It helps demonstrate how energy source changes (like increasing solar or reducing coal) can affect emissions intensity and overall grid sustainability. Access the website here:
+https://energyinsightsandforecastdashboard.streamlit.app/
 
 ## Current Features
 #### Visualise electricity generation by source over the past 10+ years (2013-2025)
